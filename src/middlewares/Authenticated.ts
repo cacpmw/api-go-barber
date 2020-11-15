@@ -16,7 +16,7 @@ export default function authenticated(
 
     try {
         const decoded = verify(token, authConfig.jwt.secret);
-        const { iat, sub, exp } = decoded as {
+        const { sub } = decoded as {
             iat: number;
             exp: number;
             sub: string;
