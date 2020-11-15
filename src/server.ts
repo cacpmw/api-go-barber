@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import routes from './routes';
@@ -9,6 +10,7 @@ import Handler from './exceptions/Handler';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use('/files', express.static(multerConfig.directory));
 app.use(routes);
 app.use(Handler);
