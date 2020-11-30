@@ -12,11 +12,8 @@ class CreateAppointmentService {
         private appointmentRepository: IAppointmentRepository,
     ) {}
 
-    public async execute({
-        provider_id,
-        date,
-    }: IAppointmentObject): Promise<Appointment> {
-        const parsedDate = startOfHour(date);
+    public async execute(data: IAppointmentObject): Promise<Appointment> {
+        const parsedDate = startOfHour(data.date);
         const appointmentInSameDate = await this.appointmentRepository.findByDate(
             parsedDate,
         );
@@ -24,11 +21,10 @@ class CreateAppointmentService {
             throw new RequestError('Invalid Date');
         }
         const appointment = await this.appointmentRepository.create({
-            provider_id,
+            provider_id: data.provider_id,
             date: parsedDate,
         });
         return appointment;
     }
 }
-
 export default CreateAppointmentService;
