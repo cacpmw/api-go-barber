@@ -1,8 +1,8 @@
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
-import Appointment from '../models/Appointment';
+import RequestError from '@shared/exceptions/RequestError';
+import Appointment from '../infrastructure/typeorm/entities/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import RequestError from '../exceptions/RequestError';
 
 class CreateAppointmentService {
     public async execute({

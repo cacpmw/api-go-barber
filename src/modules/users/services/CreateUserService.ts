@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import User from '../models/User';
+import User from '@modules/users/infrastructure/typeorm/entities/User';
+import RequestError from '@shared/exceptions/RequestError';
 import UsersRepository from '../repositories/UsersRepository';
-import RequestError from '../exceptions/RequestError';
 
 export default class CreateUserService {
     public async execute({

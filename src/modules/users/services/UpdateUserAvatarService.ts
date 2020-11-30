@@ -1,10 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
-import multerconfig from '../config/multerconfig';
-import User from '../models/User';
+import multerconfig from '@config/multerconfig';
+import User from '@modules/users/infrastructure/typeorm/entities/User';
+import RequestError from '@shared/exceptions/RequestError';
 import UsersRepository from '../repositories/UsersRepository';
-import RequestError from '../exceptions/RequestError';
 
 export default class UpdateUserAvatarService {
     public async execute({

@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import routes from './routes';
-import './database/connection';
-import multerConfig from './config/multerconfig';
-import Handler from './exceptions/Handler';
+import routes from '@shared/infrastructure/http/routes';
+import '@shared/infrastructure/typeorm/connection';
+import multerConfig from '@config/multerconfig';
+import Handler from '@shared/exceptions/Handler';
 
 const app = express();
 app.use(express.json());

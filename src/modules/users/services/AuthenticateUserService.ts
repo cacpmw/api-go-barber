@@ -1,10 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import User from '../models/User';
+import authConfig from '@config/authconfig';
+import RequestError from '@shared/exceptions/RequestError';
+import User from '../infrastructure/typeorm/entities/User';
 import UsersRepository from '../repositories/UsersRepository';
-import authConfig from '../config/authconfig';
-import RequestError from '../exceptions/RequestError';
 
 export default class AuthenticateUserService {
     public async execute({
