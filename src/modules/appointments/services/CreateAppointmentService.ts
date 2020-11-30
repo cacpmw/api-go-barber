@@ -8,7 +8,7 @@ import IAppointmentObject from '../interfaces/objects/IAppointmentObject';
 @injectable()
 class CreateAppointmentService {
     constructor(
-        @inject('AppointmentsRepostory')
+        @inject('AppointmentsRepository')
         private appointmentRepository: IAppointmentRepository,
     ) {}
 
