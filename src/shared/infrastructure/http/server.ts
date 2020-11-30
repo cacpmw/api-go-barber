@@ -7,6 +7,7 @@ import routes from '@shared/infrastructure/http/routes';
 import '@shared/infrastructure/typeorm/connection';
 import multerConfig from '@config/multerconfig';
 import Handler from '@shared/exceptions/Handler';
+import '@shared/container/index';
 
 const app = express();
 app.use(express.json());

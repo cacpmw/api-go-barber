@@ -1,12 +1,18 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import path from 'path';
 import fs from 'fs';
 import multerconfig from '@config/multerconfig';
 import User from '@modules/users/infrastructure/typeorm/entities/User';
 import RequestError from '@shared/exceptions/RequestError';
-import UsersRepository from '../repositories/UsersRepository';
+import IUserRepository from '../interfaces/classes/IUserRepository';
 
+@injectable()
 export default class UpdateUserAvatarService {
+    constructor(
+        @inject('UsersRepository')
+        private userRepository: IUserRepository,
+    ) {}
+
     public async execute({
         user_id,
         avatarFilename,
@@ -14,8 +20,7 @@ export default class UpdateUserAvatarService {
         user_id: string;
         avatarFilename: string;
     }): Promise<User> {
-        const userRepository = getCustomRepository(UsersRepository);
-        const user = await userRepository.findOne(user_id);
+        const user = await this.userRepository.findById(user_id);
 
         if (!user) {
             throw new RequestError('User not found', 404);
@@ -32,7 +37,7 @@ export default class UpdateUserAvatarService {
             }
         }
         user.avatar = avatarFilename;
-        userRepository.save(user);
+        await this.userRepository.save(user);
         return user;
     }
 }

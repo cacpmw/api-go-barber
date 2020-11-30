@@ -1,23 +1,24 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/authconfig';
 import RequestError from '@shared/exceptions/RequestError';
 import User from '../infrastructure/typeorm/entities/User';
-import UsersRepository from '../repositories/UsersRepository';
+import IUserRepository from '../interfaces/classes/IUserRepository';
+import IAuthenticationObject from '../interfaces/objects/IAuthenticationObject';
 
+@injectable()
 export default class AuthenticateUserService {
+    constructor(
+        @inject('UsersRepository')
+        private userRepository: IUserRepository,
+    ) {}
+
     public async execute({
         email,
         password,
-    }: {
-        email: string;
-        password: string;
-    }): Promise<{ user: User; token: string }> {
-        const userRepository = getCustomRepository(UsersRepository);
-        const user = await userRepository.findOne({
-            where: { email },
-        });
+    }: IAuthenticationObject): Promise<{ user: User; token: string }> {
+        const user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new RequestError('Invalid Credentials', 401);
         }

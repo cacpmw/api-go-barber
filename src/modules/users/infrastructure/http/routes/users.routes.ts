@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { container } from 'tsyringe';
 import multer from 'multer';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
@@ -9,7 +10,7 @@ const usersRouter = Router();
 const multerObject = multer(multerConfig);
 usersRouter.post('/', async (request: Request, response: Response) => {
     const { name, email, password } = request.body;
-    const createUserService = new CreateUserService();
+    const createUserService = container.resolve(CreateUserService);
     const user = await createUserService.execute({
         name,
         email,
@@ -32,7 +33,9 @@ usersRouter.patch(
     authenticated,
     multerObject.single('avatar'),
     async (request: Request, response: Response) => {
-        const updateUserAvatarService = new UpdateUserAvatarService();
+        const updateUserAvatarService = container.resolve(
+            UpdateUserAvatarService,
+        );
         const user = await updateUserAvatarService.execute({
             user_id: request.user.id,
             avatarFilename: request.file.filename,

@@ -1,32 +1,32 @@
 import { startOfHour } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import RequestError from '@shared/exceptions/RequestError';
 import Appointment from '../infrastructure/typeorm/entities/Appointment';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import IAppointmentRepository from '../interfaces/classes/IAppointmentRepository';
+import IAppointmentObject from '../interfaces/objects/IAppointmentObject';
 
+@injectable()
 class CreateAppointmentService {
+    constructor(
+        @inject('AppointmentsRepostory')
+        private appointmentRepository: IAppointmentRepository,
+    ) {}
+
     public async execute({
         provider_id,
         date,
-    }: {
-        provider_id: string;
-        date: Date;
-    }): Promise<Appointment> {
-        const appointmentRepository = getCustomRepository(
-            AppointmentsRepository,
-        );
+    }: IAppointmentObject): Promise<Appointment> {
         const parsedDate = startOfHour(date);
-        const appointmentInSameDate = await appointmentRepository.findByDate(
+        const appointmentInSameDate = await this.appointmentRepository.findByDate(
             parsedDate,
         );
         if (appointmentInSameDate) {
             throw new RequestError('Invalid Date');
         }
-        const appointment = appointmentRepository.create({
+        const appointment = await this.appointmentRepository.create({
             provider_id,
             date: parsedDate,
         });
-        await appointmentRepository.save(appointment);
         return appointment;
     }
 }
