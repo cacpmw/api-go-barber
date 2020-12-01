@@ -1,7 +1,7 @@
 import IAppointmentObject from '@modules/appointments/interfaces/objects/IAppointmentObject';
 import RequestError from '@shared/exceptions/RequestError';
-import FakeCreateAppointmentRepository from '../../repositories/fakes/FakeAppointmentRepository';
-import CreateAppointmentService from '../CreateAppointmentService';
+import FakeCreateAppointmentRepository from '../modules/appointments/repositories/fakes/FakeAppointmentRepository';
+import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
 
 describe('CreateAppointment', () => {
     it('should be able to create a new Appointment', async () => {
@@ -31,7 +31,7 @@ describe('CreateAppointment', () => {
         };
         await createAppointService.execute(data);
 
-        expect(createAppointService.execute(data)).rejects.toBeInstanceOf(
+        await expect(createAppointService.execute(data)).rejects.toBeInstanceOf(
             RequestError,
         );
     });

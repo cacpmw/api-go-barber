@@ -37,10 +37,7 @@ module.exports = {
     coverageProvider: 'v8',
 
     // A list of reporter names that Jest uses when writing coverage reports
-    coverageReporters: [
-      "text-summary",
-      "lcov",
-    ],
+    coverageReporters: ['text-summary', 'lcov'],
 
     // An object that configures minimum threshold enforcement for coverage results
     // coverageThreshold: undefined,
@@ -82,7 +79,9 @@ module.exports = {
     // ],
 
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths,{prefix: '<rootDir>/src/'}),
+    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+        prefix: '<rootDir>/src/',
+    }),
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
     // modulePathIgnorePatterns: [],
@@ -147,7 +146,10 @@ module.exports = {
     // testLocationInResults: false,
 
     // The glob patterns Jest uses to detect test files
-    testMatch: ['**/*.spec.ts'],
+    // testMatch: [
+    //   "**/__tests__/**/*.[jt]s?(x)",
+    //   "**/?(*.)+(spec|test).[tj]s?(x)"
+    // ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     // testPathIgnorePatterns: [

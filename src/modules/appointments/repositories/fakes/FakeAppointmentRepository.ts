@@ -4,7 +4,7 @@ import Appointment from '@modules/appointments/infrastructure/typeorm/entities/A
 import { uuid } from 'uuidv4';
 import { isEqual } from 'date-fns';
 
-class AppointmentsRepository implements IAppointmentRepository {
+class FakeAppointmentsRepository implements IAppointmentRepository {
     private appointments: Appointment[] = [];
 
     public async create(data: IAppointmentObject): Promise<Appointment> {
@@ -28,4 +28,4 @@ class AppointmentsRepository implements IAppointmentRepository {
     }
 }
 
-export default AppointmentsRepository;
+export default FakeAppointmentsRepository;

@@ -16,6 +16,12 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
+        },
+        {
+            "name":"Jest",
+            "type": "node",
+            "request": "attach",
+            "port": 9229
         }
     ]
 }

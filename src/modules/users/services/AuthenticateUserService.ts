@@ -23,6 +23,7 @@ export default class AuthenticateUserService {
             throw new RequestError('Invalid Credentials', 401);
         }
         const passwordMatched = await compare(password, user.password);
+
         if (!passwordMatched) {
             throw new RequestError('Invalid Credentials', 401);
         }
