@@ -31,4 +31,8 @@ export default class UsersRepository implements IUserRepository {
     public async save(user: User): Promise<void> {
         await this.ormRepository.save(user);
     }
+
+    public async all(): Promise<User[]> {
+        return this.ormRepository.find();
+    }
 }

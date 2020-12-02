@@ -1,5 +1,5 @@
 import IUserObject from '@modules/users/interfaces/objects/IUserObject';
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUserRepository';
+import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import RequestError from '@shared/exceptions/RequestError';
 import CreateUserService from '../modules/users/services/CreateUserService';
 

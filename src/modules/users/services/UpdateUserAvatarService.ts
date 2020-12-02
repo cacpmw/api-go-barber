@@ -1,9 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-import path from 'path';
-import fs from 'fs';
-import multerconfig from '@config/multerconfig';
 import User from '@modules/users/infrastructure/typeorm/entities/User';
 import RequestError from '@shared/exceptions/RequestError';
+import IStorageRepository from '@shared/repositories/interfaces/IStorageRepository';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 
 @injectable()
@@ -11,6 +9,8 @@ export default class UpdateUserAvatarService {
     constructor(
         @inject('UsersRepository')
         private userRepository: IUserRepository,
+        @inject('StorageRepository')
+        private storageRepository: IStorageRepository,
     ) {}
 
     public async execute({
@@ -27,16 +27,12 @@ export default class UpdateUserAvatarService {
         }
 
         if (user.avatar) {
-            const userAvatarPath = path.join(
-                multerconfig.directory,
-                user.avatar,
-            );
-            const userAvatarFileExists = await fs.promises.stat(userAvatarPath);
-            if (userAvatarFileExists) {
-                await fs.promises.unlink(userAvatarPath);
-            }
+            this.storageRepository.delete(user.avatar);
         }
-        user.avatar = avatarFilename;
+        const completeFilePath = await this.storageRepository.save(
+            avatarFilename,
+        );
+        user.avatar = completeFilePath;
         await this.userRepository.save(user);
         return user;
     }
