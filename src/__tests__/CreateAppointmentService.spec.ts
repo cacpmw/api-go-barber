@@ -1,6 +1,7 @@
+import 'reflect-metadata';
 import IAppointmentObject from '@modules/appointments/interfaces/objects/IAppointmentObject';
 import RequestError from '@shared/exceptions/RequestError';
-import FakeCreateAppointmentRepository from '../modules/appointments/repositories/fakes/FakeAppointmentRepository';
+import FakeCreateAppointmentRepository from './repositories/FakeAppointmentRepository';
 import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
 
 describe('CreateAppointment', () => {

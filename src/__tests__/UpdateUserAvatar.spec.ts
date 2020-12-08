@@ -1,7 +1,8 @@
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import 'reflect-metadata';
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import RequestError from '@shared/exceptions/RequestError';
-import FakeStorageRepository from '@shared/repositories/fakes/FakeStorageRepository';
+import FakeStorageRepository from './repositories/FakeStorageRepository';
+import FakeUsersRepository from './repositories/FakeUsersRepository';
 
 describe('UpdateUserAvatar', () => {
     it("should be able to create a User's avatar", async () => {

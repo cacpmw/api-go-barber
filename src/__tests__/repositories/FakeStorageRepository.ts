@@ -1,4 +1,4 @@
-import IStorageRepository from '../interfaces/IStorageRepository';
+import IStorageRepository from '@shared/repositories/interfaces/IStorageRepository';
 
 export default class FakeStorageRepository implements IStorageRepository {
     private storage: string[] = [];

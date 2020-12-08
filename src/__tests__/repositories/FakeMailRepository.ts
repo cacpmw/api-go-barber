@@ -1,4 +1,4 @@
-import IMailRepository from '../interfaces/IMailRepository';
+import IMailRepository from '@shared/repositories/interfaces/IMailRepository';
 
 export default class FakeMailRepository implements IMailRepository {
     private messages: { to: string; body: string }[] = [];

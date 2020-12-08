@@ -1,6 +1,7 @@
 import RequestError from '@shared/exceptions/RequestError';
 import ICryptographRepository from '@shared/repositories/interfaces/ICryptographRepository';
 import { inject } from 'tsyringe';
+import { isAfter, addHours } from 'date-fns';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import IUserTokenRepository from '../interfaces/classes/IUserTokenRepository';
 
@@ -31,6 +32,11 @@ export default class ResetForgotPasswordService {
         const user = await this.userRepository.findById(userToken.user_id);
         if (!user) {
             throw new RequestError('User not found', StatusCode.NOT_FOUND);
+        }
+        const tokenCreatedAt = userToken.created_at;
+        const compareDate = addHours(tokenCreatedAt, 2);
+        if (isAfter(Date.now(), compareDate)) {
+            throw new RequestError('Token expired', StatusCode.FORBIDDEN);
         }
         const hashedPassword = await this.cryptographRepository.hash(
             password,

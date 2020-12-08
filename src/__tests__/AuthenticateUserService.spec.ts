@@ -1,7 +1,8 @@
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import 'reflect-metadata';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import RequestError from '@shared/exceptions/RequestError';
+import FakeUsersRepository from './repositories/FakeUsersRepository';
 
 describe('AuthenticateUser', () => {
     it('should be able to authenticate a user', async () => {

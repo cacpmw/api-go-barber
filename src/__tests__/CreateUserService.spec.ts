@@ -1,7 +1,8 @@
+import 'reflect-metadata';
 import IUserObject from '@modules/users/interfaces/objects/IUserObject';
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import RequestError from '@shared/exceptions/RequestError';
 import CreateUserService from '../modules/users/services/CreateUserService';
+import FakeUsersRepository from './repositories/FakeUsersRepository';
 
 describe('CreateAppointment', () => {
     it('should be able to create a new User', async () => {

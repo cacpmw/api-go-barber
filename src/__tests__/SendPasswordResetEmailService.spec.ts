@@ -1,8 +1,9 @@
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import FakeUserTokensRepository from '@modules/users/repositories/fakes/FakeUserTokenRepository';
+import 'reflect-metadata';
 import SendPasswordResetEmailService from '@modules/users/services/SendPasswordResetEmailService';
 import RequestError from '@shared/exceptions/RequestError';
-import FakeMailRepository from '@shared/repositories/fakes/FakeMailRepository';
+import FakeMailRepository from './repositories/FakeMailRepository';
+import FakeUsersRepository from './repositories/FakeUsersRepository';
+import FakeUserTokensRepository from './repositories/FakeUserTokenRepository';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeMailRepository: FakeMailRepository;
