@@ -1,23 +1,24 @@
 import 'reflect-metadata';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
-import CreateUserService from '@modules/users/services/CreateUserService';
 import RequestError from '@shared/exceptions/RequestError';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
+import FakeCryptographProvider from './providers/FakeCryptographProvider';
 
 let fakeUsersRepository: FakeUsersRepository;
 let authenticateUserService: AuthenticateUserService;
-let createUserService: CreateUserService;
+let fakeCryptographProvider: FakeCryptographProvider;
 
 describe('AuthenticateUser', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
+        fakeCryptographProvider = new FakeCryptographProvider();
         authenticateUserService = new AuthenticateUserService(
             fakeUsersRepository,
+            fakeCryptographProvider,
         );
-        createUserService = new CreateUserService(fakeUsersRepository);
     });
     it('should be able to authenticate a user', async () => {
-        await createUserService.execute({
+        await fakeUsersRepository.create({
             name: 'John Doe',
             email: 'johndoe@email.com',
             password: 'secret',
@@ -37,7 +38,7 @@ describe('AuthenticateUser', () => {
         ).rejects.toBeInstanceOf(RequestError);
     });
     it('should not be able to authenticate a user with wrong password', async () => {
-        await createUserService.execute({
+        await fakeUsersRepository.create({
             name: 'John Doe',
             email: 'johndoe@email.com',
             password: 'secret',

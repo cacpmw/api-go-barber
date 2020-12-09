@@ -26,7 +26,7 @@ export default class UpdateUserDataService {
         email: string;
         oldPassword?: string;
         newPassword?: string;
-    }): Promise<User | undefined> {
+    }): Promise<User> {
         const user = await this.userRepository.findById(user_id);
         if (!user) {
             throw new RequestError('User not found', StatusCode.NotFound);
@@ -42,8 +42,8 @@ export default class UpdateUserDataService {
             throw new RequestError('Enter old password', StatusCode.Forbidden);
         }
 
-        user.name = name;
-        user.email = email;
+        user.name = name || user.name;
+        user.email = email || user.email;
         if (newPassword && oldPassword) {
             const checkOldPassword = await this.cryptographProvider.compare(
                 oldPassword,

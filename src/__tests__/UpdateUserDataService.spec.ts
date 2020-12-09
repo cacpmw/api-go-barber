@@ -7,7 +7,7 @@ import FakeCryptographProvider from './providers/FakeCryptographProvider';
 let fakeUsersRepository: FakeUsersRepository;
 let fakeCryptographProvider: FakeCryptographProvider;
 let updateUserDataService: UpdateUserDataService;
-describe('UpdateUserAvatar', () => {
+describe('UpdateUserData', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeCryptographProvider = new FakeCryptographProvider();
@@ -30,6 +30,21 @@ describe('UpdateUserAvatar', () => {
         });
         expect(updatedUser?.name).toBe('John Doe Updated');
         expect(updatedUser?.email).toBe('johndoeupdated@email.com');
+    });
+    it("should not be able to update a User's data for non existing id", async () => {
+        await fakeUsersRepository.create({
+            email: 'johndoe@email.com',
+            name: 'John Doe',
+            password: 'secret',
+        });
+
+        await expect(
+            updateUserDataService.execute({
+                user_id: 'non-existing-id',
+                name: 'John Doe Updated',
+                email: 'johndoeupdated@email.com',
+            }),
+        ).rejects.toBeInstanceOf(RequestError);
     });
     it('should not be able update to an existing email', async () => {
         await fakeUsersRepository.create({

@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/authconfig';
 import RequestError from '@shared/exceptions/RequestError';
+import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
 import User from '../infrastructure/typeorm/entities/User';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import IAuthenticationObject from '../interfaces/objects/IAuthenticationObject';
@@ -12,6 +12,8 @@ export default class AuthenticateUserService {
     constructor(
         @inject('UsersRepository')
         private userRepository: IUserRepository,
+        @inject('CryptographProvider')
+        private cryptographProvider: ICryptographProvider,
     ) {}
 
     public async execute({
@@ -22,7 +24,10 @@ export default class AuthenticateUserService {
         if (!user) {
             throw new RequestError('Invalid Credentials', 401);
         }
-        const passwordMatched = await compare(password, user.password);
+        const passwordMatched = await this.cryptographProvider.compare(
+            password,
+            user.password,
+        );
 
         if (!passwordMatched) {
             throw new RequestError('Invalid Credentials', 401);
