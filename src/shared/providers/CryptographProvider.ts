@@ -1,7 +1,7 @@
 import { compare, hash } from 'bcryptjs';
-import ICryptographRepository from './interfaces/ICryptographRepository';
+import ICryptographProvider from './interfaces/ICryptographProvider';
 
-export default class CryptographRepository implements ICryptographRepository {
+export default class CryptographProvider implements ICryptographProvider {
     public async hash(plainTextData: string, salt = 8): Promise<string> {
         return hash(plainTextData, salt);
     }

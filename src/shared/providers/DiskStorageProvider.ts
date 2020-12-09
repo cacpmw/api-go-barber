@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import multerConfig from '@config/multerconfig';
-import IStorageRepository from './interfaces/IStorageRepository';
+import IStorageProvider from './interfaces/IStorageProvider';
 
-export default class DiskStorageRepository implements IStorageRepository {
+export default class DiskStorageProvider implements IStorageProvider {
     public async save(file: string): Promise<string> {
         await fs.promises.rename(
             path.resolve(multerConfig.tempFolder, file),

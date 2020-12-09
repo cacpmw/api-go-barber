@@ -1,18 +1,20 @@
 import RequestError from '@shared/exceptions/RequestError';
-import ICryptographRepository from '@shared/repositories/interfaces/ICryptographRepository';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { isAfter, addHours } from 'date-fns';
+import StatusCode from '@shared/infrastructure/http/status';
+import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import IUserTokenRepository from '../interfaces/classes/IUserTokenRepository';
 
+@injectable()
 export default class ResetForgotPasswordService {
     constructor(
         @inject('UsersRepository')
         private userRepository: IUserRepository,
         @inject('UserTokensRepository')
         private userTokensRepository: IUserTokenRepository,
-        @inject('CryptographRepository')
-        private cryptographRepository: ICryptographRepository,
+        @inject('CryptographProvider')
+        private cryptographProvider: ICryptographProvider,
     ) {}
 
     public async execute({
@@ -26,22 +28,19 @@ export default class ResetForgotPasswordService {
         if (!userToken) {
             throw new RequestError(
                 'Invalid reset token',
-                StatusCode.BAD_REQUEST,
+                StatusCode.BadRequest,
             );
         }
         const user = await this.userRepository.findById(userToken.user_id);
         if (!user) {
-            throw new RequestError('User not found', StatusCode.NOT_FOUND);
+            throw new RequestError('User not found', StatusCode.NotFound);
         }
         const tokenCreatedAt = userToken.created_at;
         const compareDate = addHours(tokenCreatedAt, 2);
         if (isAfter(Date.now(), compareDate)) {
-            throw new RequestError('Token expired', StatusCode.FORBIDDEN);
+            throw new RequestError('Token expired', StatusCode.Forbidden);
         }
-        const hashedPassword = await this.cryptographRepository.hash(
-            password,
-            8,
-        );
+        const hashedPassword = await this.cryptographProvider.hash(password, 8);
         user.password = hashedPassword;
         this.userRepository.save(user);
     }

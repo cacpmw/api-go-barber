@@ -12,7 +12,7 @@ import '@shared/container/index';
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use('/files', express.static(multerConfig.directory));
+app.use('/files', express.static(multerConfig.uploadsFolder));
 app.use(routes);
 app.use(Handler);
 app.listen(3333, () => {

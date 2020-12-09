@@ -1,5 +1,8 @@
+/* eslint-disable no-param-reassign */
 import RequestError from '@shared/exceptions/RequestError';
-import IMailRepository from '@shared/repositories/interfaces/IMailRepository';
+import StatusCode from '@shared/infrastructure/http/status';
+import IMailProvider from '@shared/providers/interfaces/IMailProvider';
+import IMailObject from '@shared/providers/interfaces/objects/IMailObject';
 import { inject, injectable } from 'tsyringe';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import IUserTokenRepository from '../interfaces/classes/IUserTokenRepository';
@@ -9,18 +12,19 @@ export default class SendPasswordResetEmailService {
     constructor(
         @inject('UsersRepository')
         private userRepository: IUserRepository,
-        @inject('MailRepository')
-        private emailRepository: IMailRepository,
+        @inject('MailProvider')
+        private emailProvider: IMailProvider,
         @inject('UserTokensRepository')
         private userTokensRepository: IUserTokenRepository,
     ) {}
 
-    public async execute(to: string): Promise<void> {
-        const user = await this.userRepository.findByEmail(to);
+    public async execute(emailData: IMailObject): Promise<void> {
+        const user = await this.userRepository.findByEmail(emailData.to);
         if (!user) {
-            throw new RequestError('Email not found', StatusCode.BAD_REQUEST);
+            throw new RequestError('Email not found', StatusCode.BadRequest);
         }
-        await this.userTokensRepository.generate(user.id);
-        await this.emailRepository.send(to, 'Here is your link');
+        const { token } = await this.userTokensRepository.generate(user.id);
+        emailData.text = `${emailData.text}: ${token}`;
+        await this.emailProvider.send(emailData);
     }
 }

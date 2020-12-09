@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import RequestError from '@shared/exceptions/RequestError';
-import FakeStorageRepository from './repositories/FakeStorageRepository';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
+import FakeStorageProvider from './providers/FakeStorageProviders';
 
 describe('UpdateUserAvatar', () => {
     it("should be able to create a User's avatar", async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const fakeStorageRepository = new FakeStorageRepository();
+        const fakeStorageRepository = new FakeStorageProvider();
         const updateUserAvatarService = new UpdateUserAvatarService(
             fakeUsersRepository,
             fakeStorageRepository,
@@ -26,7 +26,7 @@ describe('UpdateUserAvatar', () => {
     });
     it('should not be able to update avatar of non existing User', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const fakeStorageRepository = new FakeStorageRepository();
+        const fakeStorageRepository = new FakeStorageProvider();
         const updateUserAvatarService = new UpdateUserAvatarService(
             fakeUsersRepository,
             fakeStorageRepository,
@@ -41,7 +41,7 @@ describe('UpdateUserAvatar', () => {
     });
     it("should be able to update a User's avatar", async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const fakeStorageRepository = new FakeStorageRepository();
+        const fakeStorageRepository = new FakeStorageProvider();
         const updateUserAvatarService = new UpdateUserAvatarService(
             fakeUsersRepository,
             fakeStorageRepository,

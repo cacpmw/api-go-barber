@@ -1,24 +1,24 @@
 import 'reflect-metadata';
 import ResetForgotPasswordService from '@modules/users/services/ResetForgotPasswordService';
 import RequestError from '@shared/exceptions/RequestError';
-import CryptographRepository from '@shared/repositories/CryptographRepository';
+import CryptographProvider from '@shared/providers/CryptographProvider';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeUserTokensRepository from './repositories/FakeUserTokenRepository';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokensRepository: FakeUserTokensRepository;
-let cryptographRepository: CryptographRepository;
+let cryptographProvider: CryptographProvider;
 let resetForgotPasswordService: ResetForgotPasswordService;
 
 describe('ResetPassword', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeUserTokensRepository = new FakeUserTokensRepository();
-        cryptographRepository = new CryptographRepository();
+        cryptographProvider = new CryptographProvider();
         resetForgotPasswordService = new ResetForgotPasswordService(
             fakeUsersRepository,
             fakeUserTokensRepository,
-            cryptographRepository,
+            cryptographProvider,
         );
     });
     it('should be able to reset a User forgotten password', async () => {
@@ -37,7 +37,7 @@ describe('ResetPassword', () => {
         const updatedUser = await fakeUsersRepository.findById(user.id);
         let matchedPassword = false;
         if (updatedUser) {
-            matchedPassword = await cryptographRepository.compare(
+            matchedPassword = await cryptographProvider.compare(
                 'newsecret',
                 updatedUser.password,
             );

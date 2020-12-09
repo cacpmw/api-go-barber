@@ -1,6 +1,6 @@
-import IStorageRepository from '@shared/repositories/interfaces/IStorageRepository';
+import IStorageProvider from '@shared/providers/interfaces/IStorageProvider';
 
-export default class FakeStorageRepository implements IStorageRepository {
+export default class FakeStorageProvider implements IStorageProvider {
     private storage: string[] = [];
 
     public async save(file: string): Promise<string> {
