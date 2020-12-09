@@ -11,8 +11,8 @@ import CryptographProvider from '@shared/providers/CryptographProvider';
 import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
 import HandlebarsMailTemplateProvider from '@shared/providers/HandlebarsMailTemplateProvider';
 import IMailTemplateProvider from '@shared/providers/interfaces/IMailTemplateProvider';
-import IStorageRepository from '../providers/interfaces/IStorageProvider';
-import DiskStorageRepository from '../providers/DiskStorageProvider';
+import IStorageProvider from '../providers/interfaces/IStorageProvider';
+import DiskStorageProvider from '../providers/DiskStorageProvider';
 
 container.registerSingleton<IAppointmentRepository>(
     'AppointmentsRepository',
@@ -27,9 +27,9 @@ container.registerSingleton<IAppointmentRepository>(
     'AppointmentsRepository',
     AppointmentsRepository,
 );
-container.registerSingleton<IStorageRepository>(
-    'StorageRepository',
-    DiskStorageRepository,
+container.registerSingleton<IStorageProvider>(
+    'StorageProvider',
+    DiskStorageProvider,
 );
 
 container.registerSingleton<ICryptographProvider>(

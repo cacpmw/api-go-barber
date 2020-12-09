@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import User from '@modules/users/infrastructure/typeorm/entities/User';
 import RequestError from '@shared/exceptions/RequestError';
-import IStorageRepository from '@shared/providers/interfaces/IStorageProvider';
+import IStorageProvider from '@shared/providers/interfaces/IStorageProvider';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 
 @injectable()
@@ -10,7 +10,7 @@ export default class UpdateUserAvatarService {
         @inject('UsersRepository')
         private userRepository: IUserRepository,
         @inject('StorageRepository')
-        private storageRepository: IStorageRepository,
+        private storageProvider: IStorageProvider,
     ) {}
 
     public async execute({
@@ -27,9 +27,9 @@ export default class UpdateUserAvatarService {
         }
 
         if (user.avatar) {
-            this.storageRepository.delete(user.avatar);
+            this.storageProvider.delete(user.avatar);
         }
-        const completeFilePath = await this.storageRepository.save(
+        const completeFilePath = await this.storageProvider.save(
             avatarFilename,
         );
         user.avatar = completeFilePath;

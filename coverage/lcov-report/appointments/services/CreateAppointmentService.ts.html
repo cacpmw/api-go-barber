@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.67% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/30</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.67% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/30</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -87,66 +87,66 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { startOfHour } from 'date-fns';
-import { inject, injectable } from 'tsyringe';
-import RequestError from '@shared/exceptions/RequestError';
-import Appointment from '../infrastructure/typeorm/entities/Appointment';
-import IAppointmentRepository from '../interfaces/classes/IAppointmentRepository';
-import IAppointmentObject from '../interfaces/objects/IAppointmentObject';
-&nbsp;
-@injectable()
-class CreateAppointmentService {
-    constructor(
-        @inject('AppointmentsRepository')
-        private appointmentRepository: IAppointmentRepository,
-    ) {}
-&nbsp;
-    public async execute(data: IAppointmentObject): Promise&lt;Appointment&gt; {
-        const parsedDate = startOfHour(data.date);
-        const appointmentInSameDate = await this.appointmentRepository.findByDate(
-            parsedDate,
-        );
-        if (appointmentInSameDate) {
-            throw new RequestError('Invalid Date');
-        }
-        const appointment = await this.appointmentRepository.create({
-            provider_id: data.provider_id,
-            date: parsedDate,
-        });
-        return appointment;
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    }</span></span>
-}
-export default CreateAppointmentService;
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { startOfHour } from 'date-fns';</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { inject, injectable } from 'tsyringe';</span>
+<span class="cstat-no" title="statement not covered" >import RequestError from '@shared/exceptions/RequestError';</span>
+<span class="cstat-no" title="statement not covered" >import Appointment from '../infrastructure/typeorm/entities/Appointment';</span>
+<span class="cstat-no" title="statement not covered" >import IAppointmentRepository from '../interfaces/classes/IAppointmentRepository';</span>
+<span class="cstat-no" title="statement not covered" >import IAppointmentObject from '../interfaces/objects/IAppointmentObject';</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >@injectable()</span>
+<span class="cstat-no" title="statement not covered" >class CreateAppointmentService {</span>
+<span class="cstat-no" title="statement not covered" >    constructor(</span>
+<span class="cstat-no" title="statement not covered" >        @inject('AppointmentsRepository')</span>
+<span class="cstat-no" title="statement not covered" >        private appointmentRepository: IAppointmentRepository,</span>
+<span class="cstat-no" title="statement not covered" >    ) {}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    public async execute(data: IAppointmentObject): Promise&lt;Appointment&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const parsedDate = startOfHour(data.date);</span>
+<span class="cstat-no" title="statement not covered" >        const appointmentInSameDate = await this.appointmentRepository.findByDate(</span>
+<span class="cstat-no" title="statement not covered" >            parsedDate,</span>
+<span class="cstat-no" title="statement not covered" >        );</span>
+<span class="cstat-no" title="statement not covered" >        if (appointmentInSameDate) {</span>
+<span class="cstat-no" title="statement not covered" >            throw new RequestError('Invalid Date');</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >        const appointment = await this.appointmentRepository.create({</span>
+<span class="cstat-no" title="statement not covered" >            provider_id: data.provider_id,</span>
+<span class="cstat-no" title="statement not covered" >            date: parsedDate,</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
+<span class="cstat-no" title="statement not covered" >        return appointment;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" >export default CreateAppointmentService;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -154,7 +154,7 @@ export default CreateAppointmentService;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Dec 09 2020 11:47:54 GMT-0300 (Brasilia Standard Time)
+                at Wed Dec 09 2020 13:00:03 GMT-0300 (Brasilia Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

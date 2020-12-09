@@ -5,15 +5,15 @@ import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeStorageProvider from './providers/FakeStorageProviders';
 
 let fakeUsersRepository: FakeUsersRepository;
-let fakeStorageRepository: FakeStorageProvider;
+let fakeStorageProvider: FakeStorageProvider;
 let updateUserAvatarService: UpdateUserAvatarService;
 describe('UpdateUserAvatar', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
-        fakeStorageRepository = new FakeStorageProvider();
+        fakeStorageProvider = new FakeStorageProvider();
         updateUserAvatarService = new UpdateUserAvatarService(
             fakeUsersRepository,
-            fakeStorageRepository,
+            fakeStorageProvider,
         );
     });
     it("should be able to create a User's avatar", async () => {
