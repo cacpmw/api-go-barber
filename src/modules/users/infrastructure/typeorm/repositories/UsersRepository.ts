@@ -1,6 +1,6 @@
 import IUserRepository from '@modules/users/interfaces/classes/IUserRepository';
 import IUserObject from '@modules/users/interfaces/objects/IUserObject';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Not, Repository } from 'typeorm';
 import User from '../entities/User';
 
 export default class UsersRepository implements IUserRepository {
@@ -34,5 +34,14 @@ export default class UsersRepository implements IUserRepository {
 
     public async all(): Promise<User[]> {
         return this.ormRepository.find();
+    }
+
+    public async except(user_id: string): Promise<User[]> {
+        return this.ormRepository.find({
+            where: {
+                id: Not(user_id),
+            },
+            select: ['name', 'email', 'id', 'created_at', 'updated_at'],
+        });
     }
 }

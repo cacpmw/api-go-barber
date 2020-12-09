@@ -41,6 +41,10 @@ class FakeUsersRepository implements IUserRepository {
         }
         this.users.push(user);
     }
+
+    public async except(user_id: string): Promise<User[]> {
+        return this.users.filter(currentUser => currentUser.id !== user_id);
+    }
 }
 
 export default FakeUsersRepository;
