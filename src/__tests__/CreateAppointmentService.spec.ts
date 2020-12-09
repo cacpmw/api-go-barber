@@ -4,12 +4,17 @@ import RequestError from '@shared/exceptions/RequestError';
 import FakeCreateAppointmentRepository from './repositories/FakeAppointmentRepository';
 import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
 
+let fakeCreateAppointmentRepository: FakeCreateAppointmentRepository;
+let createAppointService: CreateAppointmentService;
+
 describe('CreateAppointment', () => {
-    it('should be able to create a new Appointment', async () => {
-        const fakeCreateAppointmentRepository = new FakeCreateAppointmentRepository();
-        const createAppointService = new CreateAppointmentService(
+    beforeEach(() => {
+        fakeCreateAppointmentRepository = new FakeCreateAppointmentRepository();
+        createAppointService = new CreateAppointmentService(
             fakeCreateAppointmentRepository,
         );
+    });
+    it('should be able to create a new Appointment', async () => {
         const data: IAppointmentObject = {
             date: new Date(),
             provider_id: '12334234jrsfsdffsdf',
@@ -21,10 +26,6 @@ describe('CreateAppointment', () => {
         expect(appointment.date).toBeDefined();
     });
     it('should not be able to create two Appointments with the same date', async () => {
-        const fakeCreateAppointmentRepository = new FakeCreateAppointmentRepository();
-        const createAppointService = new CreateAppointmentService(
-            fakeCreateAppointmentRepository,
-        );
         const date = new Date(2020, 4, 10, 11);
         const data: IAppointmentObject = {
             date,

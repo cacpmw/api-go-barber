@@ -4,13 +4,19 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import RequestError from '@shared/exceptions/RequestError';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 
+let fakeUsersRepository: FakeUsersRepository;
+let authenticateUserService: AuthenticateUserService;
+let createUserService: CreateUserService;
+
 describe('AuthenticateUser', () => {
-    it('should be able to authenticate a user', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const authenticateUserService = new AuthenticateUserService(
+    beforeEach(() => {
+        fakeUsersRepository = new FakeUsersRepository();
+        authenticateUserService = new AuthenticateUserService(
             fakeUsersRepository,
         );
-        const createUserService = new CreateUserService(fakeUsersRepository);
+        createUserService = new CreateUserService(fakeUsersRepository);
+    });
+    it('should be able to authenticate a user', async () => {
         await createUserService.execute({
             name: 'John Doe',
             email: 'johndoe@email.com',
@@ -23,11 +29,6 @@ describe('AuthenticateUser', () => {
         expect(user).toHaveProperty('token');
     });
     it('should not be able to authenticate a non existing user', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const authenticateUserService = new AuthenticateUserService(
-            fakeUsersRepository,
-        );
-
         await expect(
             authenticateUserService.execute({
                 email: 'wrongemail@email.com',
@@ -36,11 +37,6 @@ describe('AuthenticateUser', () => {
         ).rejects.toBeInstanceOf(RequestError);
     });
     it('should not be able to authenticate a user with wrong password', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const authenticateUserService = new AuthenticateUserService(
-            fakeUsersRepository,
-        );
-        const createUserService = new CreateUserService(fakeUsersRepository);
         await createUserService.execute({
             name: 'John Doe',
             email: 'johndoe@email.com',

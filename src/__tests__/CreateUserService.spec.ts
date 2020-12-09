@@ -4,10 +4,14 @@ import RequestError from '@shared/exceptions/RequestError';
 import CreateUserService from '../modules/users/services/CreateUserService';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 
+let fakeUsersRepository: FakeUsersRepository;
+let createUserService: CreateUserService;
 describe('CreateAppointment', () => {
+    beforeEach(() => {
+        fakeUsersRepository = new FakeUsersRepository();
+        createUserService = new CreateUserService(fakeUsersRepository);
+    });
     it('should be able to create a new User', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const createUserService = new CreateUserService(fakeUsersRepository);
         const data: IUserObject = {
             email: 'test@email.com',
             name: 'Tester Developer',
@@ -21,8 +25,6 @@ describe('CreateAppointment', () => {
         expect(user.password).toBeDefined();
     });
     it('should not be able to create a new User with existing email', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const createUserService = new CreateUserService(fakeUsersRepository);
         const data: IUserObject = {
             email: 'test@email.com',
             name: 'Tester Developer',
