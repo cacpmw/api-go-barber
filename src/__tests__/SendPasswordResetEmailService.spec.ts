@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import SendPasswordResetEmailService from '@modules/users/services/SendPasswordResetEmailService';
 import RequestError from '@shared/exceptions/RequestError';
-import IMailObject from '@shared/providers/interfaces/objects/IMailObject';
 import FakeMailProvider from './providers/FakeMailProvider';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeUserTokensRepository from './repositories/FakeUserTokenRepository';
@@ -29,23 +28,12 @@ describe('SendPasswordResetEmail', () => {
             password: 'secret',
         });
         const send = jest.spyOn(fakeMailProvider, 'send');
-        const emailData: IMailObject = {
-            to: user.email,
-            subject: 'Unit Testing',
-            text: 'It should send a password reset email',
-        };
-        await sendPasswordResetEmailService.execute(emailData);
+        await sendPasswordResetEmailService.execute(user.email);
         expect(send).toHaveBeenCalled();
     });
     it('should not send a password reset email for non existing User', async () => {
-        const emailData: IMailObject = {
-            to: 'johndoe@email.com',
-            subject: 'Unit Testing',
-            text:
-                'It should not send a password reset email for non existing User',
-        };
         await expect(
-            sendPasswordResetEmailService.execute(emailData),
+            sendPasswordResetEmailService.execute('johndoe@email.com'),
         ).rejects.toBeInstanceOf(RequestError);
     });
     it('should generate forgot password UserToken', async () => {
@@ -55,12 +43,7 @@ describe('SendPasswordResetEmail', () => {
             name: 'John Doe',
             password: 'secret',
         });
-        const emailData: IMailObject = {
-            to: user.email,
-            subject: 'Unit Testing',
-            text: 'It should generate forgot password UserToken',
-        };
-        await sendPasswordResetEmailService.execute(emailData);
+        await sendPasswordResetEmailService.execute(user.email);
         expect(generate).toHaveBeenCalledWith(user.id);
     });
 });

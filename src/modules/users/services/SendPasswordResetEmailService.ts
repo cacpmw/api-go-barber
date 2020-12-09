@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import path from 'path';
 import RequestError from '@shared/exceptions/RequestError';
 import StatusCode from '@shared/infrastructure/http/status';
 import IMailProvider from '@shared/providers/interfaces/IMailProvider';
@@ -30,10 +31,14 @@ export default class SendPasswordResetEmailService {
             },
             subject: '[GoBarber] Reset password link',
             templateData: {
-                template: 'Olá {{name}}, {{token}}',
+                file: path.resolve(
+                    __dirname,
+                    '../templates/forgotPasswordTemplate.hbs',
+                ),
                 variables: {
                     name: user.name,
                     token,
+                    link: `http://localhost:3000/password/reset?token=${token}`,
                 },
             },
         });

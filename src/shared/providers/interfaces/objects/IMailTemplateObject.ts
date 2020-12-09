@@ -6,7 +6,7 @@ interface IVariables {
     [key: string]: string | number;
 }
 export default interface IMailTemplateObject {
-    template: string;
+    file: string;
     /** this may have any amount of properties
      * with any name
      */
