@@ -9,6 +9,8 @@ import IUserTokenRepository from '@modules/users/interfaces/classes/IUserTokenRe
 import UserTokensRepository from '@modules/users/infrastructure/typeorm/repositories/UserTokensRepository';
 import CryptographProvider from '@shared/providers/CryptographProvider';
 import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
+import HandlebarsMailTemplateProvider from '@shared/providers/HandlebarsMailTemplateProvider';
+import IMailTemplateProvider from '@shared/providers/interfaces/IMailTemplateProvider';
 import IStorageRepository from '../providers/interfaces/IStorageProvider';
 import DiskStorageRepository from '../providers/DiskStorageProvider';
 
@@ -29,10 +31,7 @@ container.registerSingleton<IStorageRepository>(
     'StorageRepository',
     DiskStorageRepository,
 );
-container.registerInstance<IMailRepository>(
-    'MailProvider',
-    new EtherealMailProvider(),
-);
+
 container.registerSingleton<ICryptographProvider>(
     'CryptographProvider',
     CryptographProvider,
@@ -40,4 +39,12 @@ container.registerSingleton<ICryptographProvider>(
 container.registerSingleton<IUserTokenRepository>(
     'UserTokensRepository',
     UserTokensRepository,
+);
+container.registerSingleton<IMailTemplateProvider>(
+    'MailTemplateProvider',
+    HandlebarsMailTemplateProvider,
+);
+container.registerInstance<IMailRepository>(
+    'MailProvider',
+    container.resolve(EtherealMailProvider),
 );

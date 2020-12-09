@@ -2,7 +2,6 @@
 import RequestError from '@shared/exceptions/RequestError';
 import StatusCode from '@shared/infrastructure/http/status';
 import IMailProvider from '@shared/providers/interfaces/IMailProvider';
-import IMailObject from '@shared/providers/interfaces/objects/IMailObject';
 import { inject, injectable } from 'tsyringe';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import IUserTokenRepository from '../interfaces/classes/IUserTokenRepository';
@@ -18,13 +17,25 @@ export default class SendPasswordResetEmailService {
         private userTokensRepository: IUserTokenRepository,
     ) {}
 
-    public async execute(emailData: IMailObject): Promise<void> {
-        const user = await this.userRepository.findByEmail(emailData.to);
+    public async execute(email: string): Promise<void> {
+        const user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new RequestError('Email not found', StatusCode.BadRequest);
         }
         const { token } = await this.userTokensRepository.generate(user.id);
-        emailData.text = `${emailData.text}: ${token}`;
-        await this.emailProvider.send(emailData);
+        await this.emailProvider.send({
+            to: {
+                name: user.name,
+                email: user.email,
+            },
+            subject: '[GoBarber] Reset password link',
+            templateData: {
+                template: 'Olá {{name}}, {{token}}',
+                variables: {
+                    name: user.name,
+                    token,
+                },
+            },
+        });
     }
 }
