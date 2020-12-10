@@ -56,6 +56,38 @@ class AppointmentsRepository implements IAppointmentRepository {
         });
         return appointments;
     }
+
+    public async findAllAppointmentsFromProviderByDay({
+        user_id,
+        month,
+        year,
+        day,
+    }: {
+        user_id: string;
+        month: number;
+        year: number;
+        day: number;
+    }): Promise<Appointment[]> {
+        /** Adding 0 to left of the number for 0 through 9.
+         * It is required for database comparison
+         */
+        const parsedMonth = month.toString().padStart(2, '0');
+        const parsedDay = day.toString().padStart(2, '0');
+        /** Querying appointments that match a user_id and a date.
+         * It is necessary to cast the dateFieldName to char
+         * in order to campare the dates directly in the database
+         */
+        const appointments = this.ormRepository.find({
+            where: {
+                provider_id: user_id,
+                date: Raw(
+                    dateFieldName =>
+                        `to_char(${dateFieldName}, DD-MM-YYYY) = '${parsedDay}-${parsedMonth}-${year}'`,
+                ),
+            },
+        });
+        return appointments;
+    }
 }
 
 export default AppointmentsRepository;

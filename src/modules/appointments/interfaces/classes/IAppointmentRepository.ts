@@ -14,4 +14,14 @@ export default interface IAppointmentRepository {
         month: number;
         year: number;
     }): Promise<Appointment[]>;
+    findAllAppointmentsFromProviderByDay({
+        user_id,
+        month,
+        year,
+    }: {
+        user_id: string;
+        month: number;
+        year: number;
+        day: number;
+    }): Promise<Appointment[]>;
 }

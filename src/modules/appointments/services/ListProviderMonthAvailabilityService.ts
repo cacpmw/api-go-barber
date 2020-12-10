@@ -1,6 +1,7 @@
 import { getDate, getDaysInMonth } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import IAppointmentRepository from '../interfaces/classes/IAppointmentRepository';
+import IMonthAvailabilityObject from '../interfaces/objects/IMonthAvailabilityObject';
 
 @injectable()
 export default class ListProviderMonthAvailabilityService {
@@ -17,7 +18,7 @@ export default class ListProviderMonthAvailabilityService {
         user_id: string;
         year: number;
         month: number;
-    }): Promise<Array<{ day: number; available: boolean }>> {
+    }): Promise<IMonthAvailabilityObject[]> {
         const appointments = await this.appointmentsRepository.findAllAppointmentsFromProviderByMonth(
             {
                 user_id,
@@ -37,11 +38,9 @@ export default class ListProviderMonthAvailabilityService {
         /** Iterating through each day and checking if
          * there are any appointments for that particular day */
         const availability = eachDay.map(day => {
-            const appointmentsInDay = appointments.filter(
-                currentAppointment => {
-                    return getDate(currentAppointment.date) === day;
-                },
-            );
+            const appointmentsInDay = appointments.filter(appointment => {
+                return getDate(appointment.date) === day;
+            });
             /** A day may have at maximum 10 appointments.
              * If appointmentsInDay.length is < 10 it will be
              * an available day

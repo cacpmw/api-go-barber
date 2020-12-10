@@ -2,7 +2,7 @@ import IAppointmentRepository from '@modules/appointments/interfaces/classes/IAp
 import IAppointmentObject from '@modules/appointments/interfaces/objects/IAppointmentObject';
 import Appointment from '@modules/appointments/infrastructure/typeorm/entities/Appointment';
 import { uuid } from 'uuidv4';
-import { getMonth, getYear, isEqual } from 'date-fns';
+import { getDate, getMonth, getYear, isEqual } from 'date-fns';
 
 class FakeAppointmentsRepository implements IAppointmentRepository {
     private appointments: Appointment[] = [];
@@ -40,6 +40,27 @@ class FakeAppointmentsRepository implements IAppointmentRepository {
             currentAppointment =>
                 currentAppointment.provider_id === user_id &&
                 getMonth(currentAppointment.date) + 1 === month &&
+                getYear(currentAppointment.date) === year,
+        );
+        return appointments;
+    }
+
+    public async findAllAppointmentsFromProviderByDay({
+        user_id,
+        month,
+        year,
+        day,
+    }: {
+        user_id: string;
+        month: number;
+        year: number;
+        day: number;
+    }): Promise<Appointment[]> {
+        const appointments = this.appointments.filter(
+            currentAppointment =>
+                currentAppointment.provider_id === user_id &&
+                getDate(currentAppointment.date) === day &&
+                getMonth(currentAppointment.date) + 1 === month && // months start at 0 hence the + 1
                 getYear(currentAppointment.date) === year,
         );
         return appointments;
