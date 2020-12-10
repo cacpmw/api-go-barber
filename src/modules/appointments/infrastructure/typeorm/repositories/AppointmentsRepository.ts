@@ -37,6 +37,9 @@ class AppointmentsRepository implements IAppointmentRepository {
         month: number;
         year: number;
     }): Promise<Appointment[]> {
+        /** Adding 0 to left of the number for 0 through 9.
+         * It is required for database comparison
+         */
         const parsedMonth = month.toString().padStart(2, '0');
         /** Querying appointments that match a user_id and a date.
          * It is necessary to cast the dateFieldName to char
