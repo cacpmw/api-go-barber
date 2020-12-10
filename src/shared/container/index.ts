@@ -23,10 +23,6 @@ container.registerSingleton<IUserRepository>(
     UsersRepository,
 );
 
-container.registerSingleton<IAppointmentRepository>(
-    'AppointmentsRepository',
-    AppointmentsRepository,
-);
 container.registerSingleton<IStorageProvider>(
     'StorageProvider',
     DiskStorageProvider,
