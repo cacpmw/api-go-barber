@@ -19,6 +19,7 @@ export default class AppointmentsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
+        const user_id = request.user.id;
         const { provider_id, date } = request.body;
         const createAppointmentService = container.resolve(
             CreateAppointmentService,
@@ -28,6 +29,7 @@ export default class AppointmentsController {
         const appointment = await createAppointmentService.execute({
             provider_id,
             date: parsedDate,
+            user_id,
         });
 
         return response.status(201).json(appointment);

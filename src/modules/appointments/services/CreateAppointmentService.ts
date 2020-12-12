@@ -23,6 +23,7 @@ class CreateAppointmentService {
         const appointment = await this.appointmentRepository.create({
             provider_id: data.provider_id,
             date: parsedDate,
+            user_id: data.user_id,
         });
         return appointment;
     }

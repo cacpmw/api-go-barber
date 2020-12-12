@@ -6,20 +6,20 @@ export default interface IAppointmentRepository {
     findByDate(date: Date): Promise<Appointment | undefined>;
     all(): Promise<Appointment[]>;
     findAllAppointmentsFromProviderByMonth({
-        user_id,
+        provider_id,
         month,
         year,
     }: {
-        user_id: string;
+        provider_id: string;
         month: number;
         year: number;
     }): Promise<Appointment[]>;
     findAllAppointmentsFromProviderByDay({
-        user_id,
+        provider_id,
         month,
         year,
     }: {
-        user_id: string;
+        provider_id: string;
         month: number;
         year: number;
         day: number;

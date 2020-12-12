@@ -11,19 +11,19 @@ export default class ListProviderDayAvailabilityService {
     ) {}
 
     public async execute({
-        user_id,
+        provider_id,
         year,
         month,
         day,
     }: {
-        user_id: string;
+        provider_id: string;
         year: number;
         month: number;
         day: number;
     }): Promise<IDayAvailabilityObject[]> {
         const appointments = await this.appointmentsRepository.findAllAppointmentsFromProviderByDay(
             {
-                user_id,
+                provider_id,
                 year,
                 month,
                 day,

@@ -18,6 +18,7 @@ describe('CreateAppointment', () => {
         const data: IAppointmentObject = {
             date: new Date(),
             provider_id: '12334234jrsfsdffsdf',
+            user_id: 'hjasgdad781263712648',
         };
 
         const appointment = await createAppointService.execute(data);
@@ -30,6 +31,7 @@ describe('CreateAppointment', () => {
         const data: IAppointmentObject = {
             date,
             provider_id: '12334234jrsfsdffsdf',
+            user_id: 'hjasgdad781263712648',
         };
         await createAppointService.execute(data);
 

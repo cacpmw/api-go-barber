@@ -12,6 +12,7 @@ class FakeAppointmentsRepository implements IAppointmentRepository {
         appointment.id = uuid();
         appointment.date = data.date;
         appointment.provider_id = data.provider_id;
+        appointment.user_id = data.user_id;
         this.appointments.push(appointment);
         return appointment;
     }
@@ -28,17 +29,17 @@ class FakeAppointmentsRepository implements IAppointmentRepository {
     }
 
     public async findAllAppointmentsFromProviderByMonth({
-        user_id,
+        provider_id,
         month,
         year,
     }: {
-        user_id: string;
+        provider_id: string;
         month: number;
         year: number;
     }): Promise<Appointment[]> {
         const appointments = this.appointments.filter(
             currentAppointment =>
-                currentAppointment.provider_id === user_id &&
+                currentAppointment.provider_id === provider_id &&
                 getMonth(currentAppointment.date) + 1 === month &&
                 getYear(currentAppointment.date) === year,
         );
@@ -46,19 +47,19 @@ class FakeAppointmentsRepository implements IAppointmentRepository {
     }
 
     public async findAllAppointmentsFromProviderByDay({
-        user_id,
+        provider_id,
         month,
         year,
         day,
     }: {
-        user_id: string;
+        provider_id: string;
         month: number;
         year: number;
         day: number;
     }): Promise<Appointment[]> {
         const appointments = this.appointments.filter(
             currentAppointment =>
-                currentAppointment.provider_id === user_id &&
+                currentAppointment.provider_id === provider_id &&
                 getDate(currentAppointment.date) === day &&
                 getMonth(currentAppointment.date) + 1 === month && // months start at 0 hence the + 1
                 getYear(currentAppointment.date) === year,

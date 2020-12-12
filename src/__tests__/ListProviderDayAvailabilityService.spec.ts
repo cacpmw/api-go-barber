@@ -16,16 +16,19 @@ describe('ListProviderDayAvailability', () => {
         await fakeAppointmentsRepository.create({
             date: new Date(2020, 4, 20, 8, 0, 0),
             provider_id: '3f7f4360-7f1a-420f-87fc-3f5c272deff7',
+            user_id: '4f7f4360-7f1a-420f-87fc-3f5c272deff7',
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2020, 4, 20, 14, 0, 0),
             provider_id: '3f7f4360-7f1a-420f-87fc-3f5c272deff7',
+            user_id: '4f7f4360-7f1a-420f-87fc-3f5c272deff7',
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2020, 4, 21, 17, 0, 0),
             provider_id: '3f7f4360-7f1a-420f-87fc-3f5c272deff7',
+            user_id: '4f7f4360-7f1a-420f-87fc-3f5c272deff7',
         });
 
         jest.spyOn(Date, 'now').mockImplementation(() => {
@@ -33,7 +36,7 @@ describe('ListProviderDayAvailability', () => {
         });
 
         const availability = await listProviderDayAvailabilityService.execute({
-            user_id: '3f7f4360-7f1a-420f-87fc-3f5c272deff7',
+            provider_id: '3f7f4360-7f1a-420f-87fc-3f5c272deff7',
             month: 5,
             year: 2020,
             day: 20,

@@ -9,6 +9,7 @@ const usersRouter = Router();
 const multerObject = multer(multerConfig);
 const usersController = new UsersController();
 const usersAvatarController = new UsersAvatarController();
+usersRouter.get('/', authenticated, usersController.index);
 usersRouter.post('/', usersController.store);
 
 usersRouter.patch(
