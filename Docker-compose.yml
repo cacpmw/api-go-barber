@@ -1,7 +1,8 @@
 version: "3"
 
 services:
-    database:
+    postgres:
+
         image: postgres:latest
         container_name: db-postgres
         environment:
@@ -11,11 +12,22 @@ services:
             - postgres-db-data:/data
         networks:
             - container-network
+    mongo:
+        image: mongo:latest
+        container_name: db-mongo
+        # environment:
+        #     MONGO_INITDB_ROOT_USERNAME: root
+        #     MONGO_INITDB_ROOT_PASSWORD: root
+        volumes:
+            - mongo-db-data:/data
+        networks:
+            - container-network
     api:
         build: .
-        command: sh -c "./wait-for.sh database:5432 -- yarn typeorm migration:run && yarn dev"
+        command: sh -c "./wait-for.sh postgres:5432 -- yarn typeorm migration:run && yarn dev"
         depends_on:
-            - database
+            - postgres
+            - mongo
         container_name: node-js-backend
         volumes:
             - .:/home/node/api
@@ -28,6 +40,7 @@ services:
 
 volumes:
     postgres-db-data:
+    mongo-db-data:
 
 networks:
     container-network:

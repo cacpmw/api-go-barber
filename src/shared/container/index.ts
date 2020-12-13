@@ -11,9 +11,15 @@ import CryptographProvider from '@shared/providers/CryptographProvider';
 import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
 import HandlebarsMailTemplateProvider from '@shared/providers/HandlebarsMailTemplateProvider';
 import IMailTemplateProvider from '@shared/providers/interfaces/IMailTemplateProvider';
+import INotificationRepository from '@modules/notifications/interfaces/classes/INotificationRepository';
+import NotificationsRepository from '@modules/notifications/infrastructure/typeorm/repositories/NotificationsRepository';
 import IStorageProvider from '../providers/interfaces/IStorageProvider';
 import DiskStorageProvider from '../providers/DiskStorageProvider';
 
+container.registerSingleton<INotificationRepository>(
+    'NotificationsRepository',
+    NotificationsRepository,
+);
 container.registerSingleton<IAppointmentRepository>(
     'AppointmentsRepository',
     AppointmentsRepository,
