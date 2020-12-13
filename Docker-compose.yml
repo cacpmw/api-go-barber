@@ -3,23 +3,20 @@ version: "3"
 services:
     database:
         image: postgres:latest
-        container_name: db-postgress
+        container_name: db-postgres
         environment:
-            - POSTGRES_PASSWORD=docker
+            POSTGRES_PASSWORD: docker
+            POSTGRES_DB: gobarber
         volumes:
             - postgres-db-data:/data
         networks:
             - container-network
-    gobarber-api:
+    api:
+        build: .
+        command: sh -c "./wait-for.sh database:5432 -- yarn typeorm migration:run && yarn dev"
         depends_on:
             - database
-        build: .
-        command:
-            - "cd gobarber-backend"
-            - "yarn typeorm migration:run"
-            - "yarn dev"
-
-        container_name: gobarber-api
+        container_name: node-js-backend
         volumes:
             - .:/home/node/api
             - /home/node/api/node_modules
