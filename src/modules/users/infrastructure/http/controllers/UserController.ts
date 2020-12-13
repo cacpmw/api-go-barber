@@ -1,5 +1,6 @@
 import CreateUserService from '@modules/users/services/CreateUserService';
 import ListAllUsersService from '@modules/users/services/ListAllUsersService';
+import StatusCode from '@shared/infrastructure/http/status';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -11,7 +12,7 @@ export default class UsersController {
         const listAllUsersService = container.resolve(ListAllUsersService);
         const users = await listAllUsersService.execute();
 
-        return response.status(201).json(users);
+        return response.status(StatusCode.Ok).json(users);
     }
 
     public async store(
@@ -34,6 +35,6 @@ export default class UsersController {
             updated_at: user.updated_at,
         };
 
-        return response.status(201).json(userWithoutPassword);
+        return response.status(StatusCode.Created).json(userWithoutPassword);
     }
 }
