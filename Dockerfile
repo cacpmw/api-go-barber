@@ -16,6 +16,8 @@ RUN ls
 
 EXPOSE 3333
 
-#RUN chmod 777 ./wait-for.sh
-#RUN ls -la
-#ENTRYPOINT ["./wait-for.sh","database:5432","--","yarn typeorm migration:run","yarn dev"]
+RUN chmod 777 ./wait-for.sh
+RUN ls -la
+# ENTRYPOINT ["./wait-for.sh","database:5432","--","yarn typeorm migration:run","yarn dev"]
+RUN [ "uptime" ]
+CMD [ "yarn dev" ]

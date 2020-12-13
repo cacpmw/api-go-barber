@@ -16,6 +16,7 @@ services:
         build: .
         command:
             - "cd gobarber-backend"
+            - "sh -c './wait-for database:5432 -- yarn dev'"
             - "yarn typeorm migration:run"
             - "yarn dev"
 
