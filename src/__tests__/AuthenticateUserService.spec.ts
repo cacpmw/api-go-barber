@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
-import RequestError from '@shared/exceptions/RequestError';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeCryptographProvider from './providers/FakeCryptographProvider';
 
@@ -35,7 +34,7 @@ describe('AuthenticateUser', () => {
                 email: 'wrongemail@email.com',
                 password: 'secret',
             }),
-        ).rejects.toBeInstanceOf(RequestError);
+        ).rejects.toHaveProperty('message', 'Invalid Credentials');
     });
     it('should not be able to authenticate a user with wrong password', async () => {
         await fakeUsersRepository.create({
@@ -49,6 +48,6 @@ describe('AuthenticateUser', () => {
                 email: 'johndoe@email.com',
                 password: 'wrongpassword',
             }),
-        ).rejects.toBeInstanceOf(RequestError);
+        ).rejects.toHaveProperty('message', 'Invalid Credentials');
     });
 });

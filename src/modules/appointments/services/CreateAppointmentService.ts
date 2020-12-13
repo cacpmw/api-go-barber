@@ -14,17 +14,19 @@ class CreateAppointmentService {
 
     public async execute(data: IAppointmentObject): Promise<Appointment> {
         if (data.provider_id === data.user_id) {
-            throw new RequestError("Can't book an apointment with yourself");
+            throw new RequestError("Can't book an appointment with yourself");
         }
         const parsedDate = startOfHour(data.date);
         if (isBefore(parsedDate, Date.now())) {
-            throw new RequestError("Can't book an apointment in the past");
+            throw new RequestError("Can't book an appointment in the past");
         }
         const appointmentInSameDate = await this.appointmentRepository.findByDate(
             parsedDate,
         );
         if (appointmentInSameDate) {
-            throw new RequestError('Invalid Date');
+            throw new RequestError(
+                'There is already an appointment for this date',
+            );
         }
         const appointment = await this.appointmentRepository.create({
             provider_id: data.provider_id,

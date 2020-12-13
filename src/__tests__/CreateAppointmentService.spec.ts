@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import IAppointmentObject from '@modules/appointments/interfaces/objects/IAppointmentObject';
-import RequestError from '@shared/exceptions/RequestError';
 import FakeCreateAppointmentRepository from './repositories/FakeAppointmentRepository';
 import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
 
@@ -37,8 +36,9 @@ describe('CreateAppointment', () => {
         };
         await createAppointService.execute(data);
 
-        await expect(createAppointService.execute(data)).rejects.toBeInstanceOf(
-            RequestError,
+        await expect(createAppointService.execute(data)).rejects.toHaveProperty(
+            'message',
+            'There is already an appointment for this date',
         );
     });
     it('should not be able to create an appointment in the past', async () => {
@@ -48,7 +48,10 @@ describe('CreateAppointment', () => {
                 provider_id: '12334234jrsfsdffsdf',
                 user_id: 'hjasgdad781263712648',
             }),
-        ).rejects.toBeInstanceOf(RequestError);
+        ).rejects.toHaveProperty(
+            'message',
+            "Can't book an appointment in the past",
+        );
     });
 
     it('should not be able to create an appointment with same user as provider', async () => {
@@ -58,6 +61,9 @@ describe('CreateAppointment', () => {
                 provider_id: '12334234jrsfsdffsdf',
                 user_id: '12334234jrsfsdffsdf',
             }),
-        ).rejects.toBeInstanceOf(RequestError);
+        ).rejects.toHaveProperty(
+            'message',
+            "Can't book an appointment with yourself",
+        );
     });
 });
