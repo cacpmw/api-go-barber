@@ -45,15 +45,17 @@ class AppointmentsRepository implements IAppointmentRepository {
          * It is necessary to cast the dateFieldName to char
          * in order to campare the dates directly in the database
          */
-        const appointments = this.ormRepository.find({
+
+        const appointments = await this.ormRepository.find({
             where: {
                 provider_id,
                 date: Raw(
                     dateFieldName =>
-                        `to_char(${dateFieldName}, MM-YYYY) = '${parsedMonth}-${year}'`,
+                        `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
                 ),
             },
         });
+
         return appointments;
     }
 
@@ -77,12 +79,12 @@ class AppointmentsRepository implements IAppointmentRepository {
          * It is necessary to cast the dateFieldName to char
          * in order to campare the dates directly in the database
          */
-        const appointments = this.ormRepository.find({
+        const appointments = await this.ormRepository.find({
             where: {
                 provider_id,
                 date: Raw(
                     dateFieldName =>
-                        `to_char(${dateFieldName}, DD-MM-YYYY) = '${parsedDay}-${parsedMonth}-${year}'`,
+                        `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
                 ),
             },
         });

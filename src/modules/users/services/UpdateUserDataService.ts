@@ -22,8 +22,8 @@ export default class UpdateUserDataService {
         oldPassword,
     }: {
         user_id: string;
-        name: string;
-        email: string;
+        name?: string;
+        email?: string;
         oldPassword?: string;
         newPassword?: string;
     }): Promise<User> {
@@ -31,13 +31,16 @@ export default class UpdateUserDataService {
         if (!user) {
             throw new RequestError('User not found', StatusCode.NotFound);
         }
-        const userByEmail = await this.userRepository.findByEmail(email);
-        if (userByEmail && userByEmail.id !== user.id) {
-            throw new RequestError(
-                'Email already exists',
-                StatusCode.Forbidden,
-            );
+        if (email) {
+            const userByEmail = await this.userRepository.findByEmail(email);
+            if (userByEmail && userByEmail.id !== user.id) {
+                throw new RequestError(
+                    'Email already exists',
+                    StatusCode.Forbidden,
+                );
+            }
         }
+
         if (newPassword && !oldPassword) {
             throw new RequestError('Enter old password', StatusCode.Forbidden);
         }

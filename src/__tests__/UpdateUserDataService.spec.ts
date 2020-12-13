@@ -116,4 +116,28 @@ describe('UpdateUserData', () => {
             }),
         ).rejects.toBeInstanceOf(RequestError);
     });
+    it("should be able to update a User's data except the name property", async () => {
+        const user = await fakeUsersRepository.create({
+            email: 'johndoe@email.com',
+            name: 'John Doe',
+            password: 'secret',
+        });
+        const updatedUser = await updateUserDataService.execute({
+            user_id: user.id,
+            email: 'johndoeupdated@email.com',
+        });
+        expect(updatedUser.name).toBe('John Doe');
+    });
+    it("should be able to update a User's data except the email property", async () => {
+        const user = await fakeUsersRepository.create({
+            email: 'johndoe@email.com',
+            name: 'John Doe',
+            password: 'secret',
+        });
+        const updatedUser = await updateUserDataService.execute({
+            user_id: user.id,
+            name: 'John Doe',
+        });
+        expect(updatedUser.email).toBe('johndoe@email.com');
+    });
 });

@@ -17,7 +17,7 @@ class CreateAppointmentService {
             throw new RequestError("Can't book an appointment with yourself");
         }
         const parsedDate = startOfHour(data.date);
-        if (isBefore(parsedDate, Date.now())) {
+        if (isBefore(parsedDate, startOfHour(Date.now()))) {
             throw new RequestError("Can't book an appointment in the past");
         }
         const appointmentInSameDate = await this.appointmentRepository.findByDate(
