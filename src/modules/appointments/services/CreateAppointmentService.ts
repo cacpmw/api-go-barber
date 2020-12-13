@@ -13,6 +13,9 @@ class CreateAppointmentService {
     ) {}
 
     public async execute(data: IAppointmentObject): Promise<Appointment> {
+        if (data.provider_id === data.user_id) {
+            throw new RequestError("Can't book an apointment with yourself");
+        }
         const parsedDate = startOfHour(data.date);
         if (isBefore(parsedDate, Date.now())) {
             throw new RequestError("Can't book an apointment in the past");
