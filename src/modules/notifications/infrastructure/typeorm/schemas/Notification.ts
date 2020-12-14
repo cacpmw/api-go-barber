@@ -2,10 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    ObjectID,
     ObjectIdColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
+import { ObjectID } from 'mongodb';
 
 @Entity('notifications')
 export default class Notification {
