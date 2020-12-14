@@ -4,3 +4,4 @@
 !/temp/.gitkeep
 /coverage/*
 .DS_Store
+.env
