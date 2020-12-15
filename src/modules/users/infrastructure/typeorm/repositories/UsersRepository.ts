@@ -32,12 +32,7 @@ export default class UsersRepository implements IUserRepository {
         await this.ormRepository.save(user);
     }
 
-    public async all(noPassword = true): Promise<User[]> {
-        if (noPassword) {
-            return this.ormRepository.find({
-                select: ['name', 'email', 'id', 'created_at', 'updated_at'],
-            });
-        }
+    public async all(): Promise<User[]> {
         return this.ormRepository.find();
     }
 

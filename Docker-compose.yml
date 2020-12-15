@@ -28,7 +28,7 @@ services:
             - "27017:27017"
     api:
         build: .
-        command: sh -c "./wait-for.sh postgres:5432 -- yarn typeorm migration:run && yarn dev"
+        command: sh -c "./wait-for.sh postgres:5432 -- yarn && yarn typeorm migration:run && yarn dev"
         depends_on:
             - postgres
             - mongo

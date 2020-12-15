@@ -38,7 +38,7 @@ export default class SendPasswordResetEmailService {
                 variables: {
                     name: user.name,
                     token,
-                    link: `http://localhost:3000/password/reset?token=${token}`,
+                    link: `${process.env.APP_WEB_URL}/password/reset?token=${token}`,
                 },
             },
         });

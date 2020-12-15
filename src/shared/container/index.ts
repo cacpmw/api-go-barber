@@ -13,8 +13,10 @@ import HandlebarsMailTemplateProvider from '@shared/providers/HandlebarsMailTemp
 import IMailTemplateProvider from '@shared/providers/interfaces/IMailTemplateProvider';
 import INotificationRepository from '@modules/notifications/interfaces/classes/INotificationRepository';
 import NotificationsRepository from '@modules/notifications/infrastructure/typeorm/repositories/NotificationsRepository';
-import IStorageProvider from '../providers/interfaces/IStorageProvider';
-import DiskStorageProvider from '../providers/DiskStorageProvider';
+import mailconfig from '@config/mailconfig';
+import SesMailProvider from '@shared/providers/SesMailProvider';
+
+import '../providers/storage/StorageResolver';
 
 container.registerSingleton<INotificationRepository>(
     'NotificationsRepository',
@@ -27,11 +29,6 @@ container.registerSingleton<IAppointmentRepository>(
 container.registerSingleton<IUserRepository>(
     'UsersRepository',
     UsersRepository,
-);
-
-container.registerSingleton<IStorageProvider>(
-    'StorageProvider',
-    DiskStorageProvider,
 );
 
 container.registerSingleton<ICryptographProvider>(
@@ -48,5 +45,7 @@ container.registerSingleton<IMailTemplateProvider>(
 );
 container.registerInstance<IMailRepository>(
     'MailProvider',
-    container.resolve(EtherealMailProvider),
+    mailconfig.driver === 'ethereal'
+        ? container.resolve(EtherealMailProvider)
+        : container.resolve(SesMailProvider),
 );

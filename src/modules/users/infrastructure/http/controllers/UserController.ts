@@ -1,6 +1,7 @@
 import CreateUserService from '@modules/users/services/CreateUserService';
 import ListAllUsersService from '@modules/users/services/ListAllUsersService';
 import StatusCode from '@shared/infrastructure/http/status';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -12,7 +13,7 @@ export default class UsersController {
         const listAllUsersService = container.resolve(ListAllUsersService);
         const users = await listAllUsersService.execute();
 
-        return response.status(StatusCode.Ok).json(users);
+        return response.status(StatusCode.Ok).json(classToClass(users));
     }
 
     public async store(
@@ -27,14 +28,6 @@ export default class UsersController {
             password,
         });
 
-        const userWithoutPassword = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            created_at: user.created_at,
-            updated_at: user.updated_at,
-        };
-
-        return response.status(StatusCode.Created).json(userWithoutPassword);
+        return response.status(StatusCode.Created).json(classToClass(user));
     }
 }

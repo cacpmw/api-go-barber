@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+import 'dotenv/config';
 import cors from 'cors';
 import { errors } from 'celebrate';
 import express from 'express';

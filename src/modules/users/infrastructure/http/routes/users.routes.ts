@@ -7,7 +7,7 @@ import UsersController from '../controllers/UserController';
 import UsersAvatarController from '../controllers/UsersAvatarController';
 
 const usersRouter = Router();
-const multerObject = multer(multerConfig);
+const multerObject = multer(multerConfig.multer);
 const usersController = new UsersController();
 const usersAvatarController = new UsersAvatarController();
 usersRouter.get('/', authenticated, usersController.index);

@@ -9,8 +9,8 @@ export default class ListAllUsersService {
         private userRepository: IUserRepository,
     ) {}
 
-    public async execute(noPassword = true): Promise<User[]> {
-        const users = await this.userRepository.all(noPassword);
+    public async execute(): Promise<User[]> {
+        const users = await this.userRepository.all();
         return users;
     }
 }

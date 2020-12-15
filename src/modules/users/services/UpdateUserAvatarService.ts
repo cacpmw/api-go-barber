@@ -9,7 +9,7 @@ export default class UpdateUserAvatarService {
     constructor(
         @inject('UsersRepository')
         private userRepository: IUserRepository,
-        @inject('StorageRepository')
+        @inject('StorageProvider')
         private storageProvider: IStorageProvider,
     ) {}
 

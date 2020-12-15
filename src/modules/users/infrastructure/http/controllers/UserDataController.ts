@@ -1,6 +1,7 @@
 import ShowUserDataService from '@modules/users/services/ShowUserDataService';
 import UpdateUserDataService from '@modules/users/services/UpdateUserDataService';
 import StatusCode from '@shared/infrastructure/http/status';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -20,29 +21,15 @@ export default class UserDataController {
             newPassword,
             oldPassword,
         });
-        const userWithoutPassword = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            created_at: user.created_at,
-            updated_at: user.updated_at,
-        };
 
-        return response.status(StatusCode.Ok).json(userWithoutPassword);
+        return response.status(StatusCode.Ok).json(classToClass(user));
     }
 
     public async show(request: Request, response: Response): Promise<Response> {
         const user_id = request.user.id;
         const showUserDataService = container.resolve(ShowUserDataService);
         const user = await showUserDataService.execute(user_id);
-        const userWithoutPassword = {
-            id: user?.id,
-            name: user?.name,
-            email: user?.email,
-            created_at: user?.created_at,
-            updated_at: user?.updated_at,
-        };
 
-        return response.status(StatusCode.Ok).json(userWithoutPassword);
+        return response.status(StatusCode.Ok).json(classToClass(user));
     }
 }
