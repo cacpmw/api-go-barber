@@ -1,7 +1,5 @@
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 import AppointmentsRepository from '@modules/appointments/infrastructure/typeorm/repositories/AppointmentsRepository';
-
-import { parseISO } from 'date-fns';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -25,10 +23,9 @@ export default class AppointmentsController {
             CreateAppointmentService,
         );
 
-        const parsedDate = parseISO(date);
         const appointment = await createAppointmentService.execute({
             provider_id,
-            date: parsedDate,
+            date,
             user_id,
         });
 

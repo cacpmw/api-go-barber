@@ -23,14 +23,25 @@ export default class ListProviderAppointmentsService {
         month: number;
         day: number;
     }): Promise<Appointment[]> {
-        const appointments = await this.appointmentsRepository.findAllAppointmentsFromProviderByDay(
-            {
-                provider_id,
-                year,
-                month,
-                day,
-            },
+        const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
+        console.log(cacheKey);
+        let appointments = await this.cacheProvider.get<Appointment[]>(
+            cacheKey,
         );
+        if (!appointments) {
+            appointments = await this.appointmentsRepository.findAllAppointmentsFromProviderByDay(
+                {
+                    provider_id,
+                    year,
+                    month,
+                    day,
+                },
+            );
+            console.log('Caching ListProviderAppointmentsService.ts');
+
+            await this.cacheProvider.set(cacheKey, appointments);
+        }
+
         return appointments;
     }
 }
