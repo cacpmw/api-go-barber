@@ -16,7 +16,8 @@ import NotificationsRepository from '@modules/notifications/infrastructure/typeo
 import mailconfig from '@config/mailconfig';
 import SesMailProvider from '@shared/providers/SesMailProvider';
 
-import '../providers/storage/StorageResolver';
+import '@shared/providers/storage/StorageResolver';
+import '@shared/providers/cache/CacheResolver';
 
 container.registerSingleton<INotificationRepository>(
     'NotificationsRepository',
