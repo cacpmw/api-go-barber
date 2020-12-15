@@ -3,13 +3,19 @@ import IUserObject from '@modules/users/interfaces/objects/IUserObject';
 import RequestError from '@shared/exceptions/RequestError';
 import CreateUserService from '../modules/users/services/CreateUserService';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
+import FakeCacheProvider from './providers/FakeCacheProvider';
 
 let fakeUsersRepository: FakeUsersRepository;
+let fakeCacheProvider: FakeCacheProvider;
 let createUserService: CreateUserService;
 describe('CreateUser', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
-        createUserService = new CreateUserService(fakeUsersRepository);
+        fakeCacheProvider = new FakeCacheProvider();
+        createUserService = new CreateUserService(
+            fakeUsersRepository,
+            fakeCacheProvider,
+        );
     });
     it('should be able to create a new User', async () => {
         const data: IUserObject = {

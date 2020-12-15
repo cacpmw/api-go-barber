@@ -10,7 +10,7 @@ export default class ListProvidersService {
         private userRepository: IUserRepository,
         @inject('CacheProvider')
         private cacheProvider: ICacheProvider,
-    ) { }
+    ) {}
 
     public async execute(except_user_id: string): Promise<User[]> {
         let users = await this.cacheProvider.get<User[]>(
@@ -22,7 +22,6 @@ export default class ListProvidersService {
                 `providers-list:${except_user_id}`,
                 users,
             );
-            console.log('A query was run against postgres');
         }
 
         return users;

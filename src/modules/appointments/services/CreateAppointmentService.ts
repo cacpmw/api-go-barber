@@ -48,7 +48,6 @@ class CreateAppointmentService {
             parsedDate,
             'yyyy-M-d',
         )}`;
-        console.log(cacheKey);
         await this.cacheProvider.invalidate(cacheKey);
         return appointment;
     }

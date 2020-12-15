@@ -24,7 +24,6 @@ export default class ListProviderAppointmentsService {
         day: number;
     }): Promise<Appointment[]> {
         const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
-        console.log(cacheKey);
         let appointments = await this.cacheProvider.get<Appointment[]>(
             cacheKey,
         );
@@ -37,8 +36,6 @@ export default class ListProviderAppointmentsService {
                     day,
                 },
             );
-            console.log('Caching ListProviderAppointmentsService.ts');
-
             await this.cacheProvider.set(cacheKey, appointments);
         }
 

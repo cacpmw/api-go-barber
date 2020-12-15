@@ -3,18 +3,22 @@ import IAppointmentObject from '@modules/appointments/interfaces/objects/IAppoin
 import FakeCreateAppointmentRepository from './repositories/FakeAppointmentRepository';
 import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
 import FakeNotificationsRepository from './repositories/FakeNotificationsRepository';
+import FakeCacheProvider from './providers/FakeCacheProvider';
 
 let fakeCreateAppointmentRepository: FakeCreateAppointmentRepository;
 let createAppointService: CreateAppointmentService;
+let fakeCacheProvider: FakeCacheProvider;
 let fakeNotificationsRepository: FakeNotificationsRepository;
 
 describe('CreateAppointment', () => {
     beforeEach(() => {
         fakeCreateAppointmentRepository = new FakeCreateAppointmentRepository();
         fakeNotificationsRepository = new FakeNotificationsRepository();
+        fakeCacheProvider = new FakeCacheProvider();
         createAppointService = new CreateAppointmentService(
             fakeCreateAppointmentRepository,
             fakeNotificationsRepository,
+            fakeCacheProvider,
         );
     });
     it('should be able to create a new Appointment', async () => {
