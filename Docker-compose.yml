@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+    redis:
+        image: redis:alpine
+        container_name: db-redis
+        volumes:
+            - redis-db-data:/data
+        networks:
+            - container-network
+        ports:
+            - "6379:6379"
     postgres:
 
         image: postgres:latest
@@ -32,6 +41,7 @@ services:
         depends_on:
             - postgres
             - mongo
+            - redis
         container_name: node-js-backend
         volumes:
             - .:/home/node/api
@@ -45,6 +55,7 @@ services:
 volumes:
     postgres-db-data:
     mongo-db-data:
+    redis-db-data:
 
 networks:
     container-network:
