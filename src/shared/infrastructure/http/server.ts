@@ -10,8 +10,10 @@ import '@shared/infrastructure/typeorm/connection';
 import multerConfig from '@config/multerconfig';
 import ExceptionHandler from '@shared/exceptions/Handler';
 import '@shared/container/index';
+import rateLimiter from './middlewares/rateLimiter';
 
 const app = express();
+app.use(rateLimiter);
 app.use(express.json());
 app.use(cors());
 app.use('/files', express.static(multerConfig.uploadsFolder));

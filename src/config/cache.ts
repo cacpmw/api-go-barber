@@ -10,9 +10,9 @@ export default {
     driver: 'redis',
     configs: {
         redis: {
-            host: 'db-redis',
-            port: 6379,
-            password: undefined,
+            host: process.env.REDIS_HOST || 'db-redis',
+            port: process.env.REDIS_PORT || 6379,
+            password: process.env.REDIS_PASS || undefined,
         },
     },
 } as IChaceConfig;
