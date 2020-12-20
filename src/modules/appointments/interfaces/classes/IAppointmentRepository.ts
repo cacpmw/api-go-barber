@@ -3,7 +3,10 @@ import IAppointmentObject from '../objects/IAppointmentObject';
 
 export default interface IAppointmentRepository {
     create(data: IAppointmentObject): Promise<Appointment>;
-    findByDate(date: Date): Promise<Appointment | undefined>;
+    findByDate(
+        date: Date,
+        provider_id: string,
+    ): Promise<Appointment | undefined>;
     all(): Promise<Appointment[]>;
     findAllAppointmentsFromProviderByMonth({
         provider_id,

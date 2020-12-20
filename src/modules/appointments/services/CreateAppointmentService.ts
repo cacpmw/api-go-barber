@@ -1,4 +1,4 @@
-import { format, isBefore, startOfHour } from 'date-fns';
+import { format, getHours, isBefore, startOfHour } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import RequestError from '@shared/exceptions/RequestError';
 import INotificationRepository from '@modules/notifications/interfaces/classes/INotificationRepository';
@@ -26,8 +26,14 @@ class CreateAppointmentService {
         if (isBefore(parsedDate, startOfHour(Date.now()))) {
             throw new RequestError("Can't book an appointment in the past");
         }
+        if (getHours(parsedDate) < 8 || getHours(parsedDate) > 17) {
+            throw new RequestError(
+                'Appointments can only be schedules between 8am and 5pm',
+            );
+        }
         const appointmentInSameDate = await this.appointmentRepository.findByDate(
             parsedDate,
+            data.provider_id,
         );
         if (appointmentInSameDate) {
             throw new RequestError(
