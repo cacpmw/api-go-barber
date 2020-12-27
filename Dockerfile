@@ -16,3 +16,5 @@ COPY --chown=node:node . .
 EXPOSE 3333
 
 RUN chmod +x wait-for.sh
+
+CMD ["yarn", "dev"]
