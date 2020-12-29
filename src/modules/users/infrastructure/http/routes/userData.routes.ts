@@ -10,11 +10,19 @@ userDataRouter.put(
     '/',
     celebrate({
         [Segments.BODY]: Joi.object({
-            name: Joi.string(),
-            email: Joi.string().email(),
-            oldPassword: Joi.string(),
-            newPassword: Joi.string(),
-            passwordConfirmation: Joi.string().valid(Joi.ref('newPassword')),
+            name: Joi.string().optional(),
+            email: Joi.string().optional().email(),
+            oldPassword: Joi.string().optional(),
+            newPassword: Joi.when('oldPassword', {
+                is: Joi.ref('oldPassword').key,
+                then: Joi.string().required(),
+            }),
+            passwordConfirmation: Joi.when('newPassword', {
+                is: Joi.object().keys({
+                    oldPassword: Joi.exist(),
+                }),
+                then: Joi.string().valid(Joi.ref('newPassword')),
+            }),
         }),
     }),
     userDataController.update,
