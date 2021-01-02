@@ -41,7 +41,14 @@ export default class UsersRepository implements IUserRepository {
             where: {
                 id: Not(user_id),
             },
-            select: ['name', 'email', 'id', 'created_at', 'updated_at'],
+            select: [
+                'name',
+                'email',
+                'id',
+                'avatar',
+                'created_at',
+                'updated_at',
+            ],
         });
     }
 }
