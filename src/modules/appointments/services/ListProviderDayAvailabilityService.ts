@@ -36,9 +36,11 @@ export default class ListProviderDayAvailabilityService {
          */
         const eachHour = Array.from(
             { length: 10 },
-            // increments startingHour untill it reaches 17 (5 pm in military hours)
-            (value, index) => index + startingHour,
+            // increments startingHour until it reaches 17 (5 pm in military hours)
+            (_value, index) => index + startingHour,
         );
+
+        const currentDate = new Date(Date.now());
         /** Iterating through each hour and checking if
          * there are any appointments for that particular day */
         const availability = eachHour.map(hour => {
@@ -46,7 +48,6 @@ export default class ListProviderDayAvailabilityService {
                 appointment => getHours(appointment.date) === hour,
             );
             /** Hours before currentDate should be removed */
-            const currentDate = new Date(Date.now());
             const compareDate = new Date(year, month - 1, day, hour);
 
             return {

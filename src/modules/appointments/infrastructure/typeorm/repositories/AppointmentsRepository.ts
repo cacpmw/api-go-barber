@@ -76,8 +76,8 @@ class AppointmentsRepository implements IAppointmentRepository {
         /** Adding 0 to left of the number for 0 through 9.
          * It is required for database comparison
          */
-        const parsedMonth = month.toString().padStart(2, '0');
-        const parsedDay = day.toString().padStart(2, '0');
+        const parsedMonth = String(month).padStart(2, '0');
+        const parsedDay = String(day).padStart(2, '0');
         /** Querying appointments that match a user_id and a date.
          * It is necessary to cast the dateFieldName to char
          * in order to campare the dates directly in the database

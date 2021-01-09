@@ -28,6 +28,11 @@ providersRouter.get(
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
         },
+        [Segments.QUERY]: {
+            day: Joi.string().required(),
+            month: Joi.string().required(),
+            year: Joi.string().required(),
+        },
     }),
     providersDayAvailability.index,
 );
