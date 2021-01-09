@@ -3,17 +3,21 @@ import UpdateUserDataService from '@modules/users/services/UpdateUserDataService
 import RequestError from '@shared/exceptions/RequestError';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeCryptographProvider from './providers/FakeCryptographProvider';
+import FakeCacheProvider from './providers/FakeCacheProvider';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeCryptographProvider: FakeCryptographProvider;
 let updateUserDataService: UpdateUserDataService;
+let fakeCacheProvider: FakeCacheProvider;
 describe('UpdateUserData', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeCryptographProvider = new FakeCryptographProvider();
+        fakeCacheProvider = new FakeCacheProvider();
         updateUserDataService = new UpdateUserDataService(
             fakeUsersRepository,
             fakeCryptographProvider,
+            fakeCacheProvider,
         );
     });
     it("should be able to update a User's data", async () => {

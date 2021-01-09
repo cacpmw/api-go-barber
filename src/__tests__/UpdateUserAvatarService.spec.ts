@@ -3,17 +3,21 @@ import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarSer
 import RequestError from '@shared/exceptions/RequestError';
 import FakeUsersRepository from './repositories/FakeUsersRepository';
 import FakeStorageProvider from './providers/FakeStorageProviders';
+import FakeCacheProvider from './providers/FakeCacheProvider';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeStorageProvider: FakeStorageProvider;
 let updateUserAvatarService: UpdateUserAvatarService;
+let fakeCacheProvider: FakeCacheProvider;
 describe('UpdateUserAvatar', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeStorageProvider = new FakeStorageProvider();
+        fakeCacheProvider = new FakeCacheProvider();
         updateUserAvatarService = new UpdateUserAvatarService(
             fakeUsersRepository,
             fakeStorageProvider,
+            fakeCacheProvider,
         );
     });
     it("should be able to create a User's avatar", async () => {

@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import ICryptographProvider from '@shared/providers/interfaces/ICryptographProvider';
 import RequestError from '@shared/exceptions/RequestError';
 import StatusCode from '@shared/infrastructure/http/status';
+import ICacheProvider from '@shared/providers/interfaces/ICacheProvider';
 import IUserRepository from '../interfaces/classes/IUserRepository';
 import User from '../infrastructure/typeorm/entities/User';
 
@@ -12,6 +13,8 @@ export default class UpdateUserDataService {
         private userRepository: IUserRepository,
         @inject('CryptographProvider')
         private cryptographProvider: ICryptographProvider,
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({
@@ -61,6 +64,7 @@ export default class UpdateUserDataService {
             user.password = await this.cryptographProvider.hash(newPassword, 8);
         }
         this.userRepository.save(user);
+        await this.cacheProvider.invalidateWithPrefix('providers-list');
         return user;
     }
 }
