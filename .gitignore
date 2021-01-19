@@ -7,3 +7,4 @@
 .env
 secret.txt
 ormconfig.json
+Docker-compose.prod.yml
